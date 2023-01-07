@@ -1,50 +1,39 @@
 import { useState, useEffect, useCallback } from "react";
-import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
-import { v4 as uuid } from "uuid";
-import { storage } from "../firebase/firebase";
+
+import { UploadResponse } from "../interfaces/uploadImg";
 
 type State = "idle" | "loading" | "success" | "error";
 
 export const useUploadImg = () => {
   const [img, setImg] = useState<File>();
-  const [progessStatus, setProgessStatus] = useState(0);
   const [imgUrl, setImgUrl] = useState("");
   const [currentState, setCurrentState] = useState<State>("idle");
 
-  const submitFile = useCallback(() => {
+  const submitFile = useCallback(async () => {
     if (!img) return;
 
-    const fileExt = img.name.split(".").pop();
-    const fileName = `${uuid()}.${fileExt}`;
-
-    const storageRef = ref(storage, `images/${fileName}`);
-    const uploadTask = uploadBytesResumable(storageRef, img);
     setCurrentState("loading");
 
-    uploadTask.on(
-      "state_changed",
-      (snapshot) => {
-        const percent = Math.round(
-          (snapshot.bytesTransferred / snapshot.totalBytes) * 100
-        );
-        setProgessStatus(percent);
-      },
-      (err) => {
-        setCurrentState("error");
-        console.error(err);
-      },
-      () => {
-        getDownloadURL(uploadTask.snapshot.ref).then((url) => {
-          setImgUrl(url);
-          setCurrentState("success");
-        });
-      }
-    );
+    const formData = new FormData();
+    formData.append("image", img);
+
+    try {
+      const res = await fetch("/api/upload", {
+        method: "POST",
+        body: formData,
+      });
+      const data: UploadResponse = await res.json();
+      setImgUrl(data.data.url);
+      setCurrentState("success");
+    } catch (error) {
+      setCurrentState("error");
+      console.error(error);
+    }
   }, [img]);
 
   useEffect(() => {
     submitFile();
   }, [submitFile, img]);
 
-  return { currentState, progessStatus, imgUrl, setImg };
+  return { currentState, imgUrl, setImg };
 };

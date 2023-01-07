@@ -6,7 +6,7 @@ import { ImageSVG } from "../svg/image";
 import { useUploadImg } from "../hooks/useUploadImg";
 
 export default function Home() {
-  const { currentState, progessStatus, imgUrl, setImg } = useUploadImg();
+  const { currentState, imgUrl, setImg } = useUploadImg();
   const onChange = (ev: ChangeEvent<HTMLInputElement>) => {
     if (ev.target!.files === null) return;
 
@@ -33,13 +33,7 @@ export default function Home() {
     return (
       <div className="card">
         <h2 className="card__title">Uploading...</h2>
-        <div className="card__progress">
-          <div
-            className="card__progress-bar"
-            style={{ width: `${progessStatus}%` }}
-          />
-        </div>
-        <p className="card__label">{progessStatus}%</p>
+        <span className="loader"></span>
       </div>
     );
   }
