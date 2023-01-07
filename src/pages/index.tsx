@@ -73,6 +73,12 @@ export default function Home() {
     return (
       <div className="card">
         <h2 className="card__title">Uploading...</h2>
+        <div className="card__progress">
+          <div
+            className="card__progress-bar"
+            style={{ width: `${progessStatus}%` }}
+          />
+        </div>
         <p className="card__label">{progessStatus}%</p>
       </div>
     );
@@ -81,7 +87,7 @@ export default function Home() {
   if (currentState === "success") {
     return (
       <div className="card">
-        <h2 className="card__title">Uploaded successfully</h2>
+        <h2 className="card__title">🎉 Uploaded successfully</h2>
         <img className="card__img" src={imgUrl} alt="uploaded image" />
         <input type="text" readOnly value={imgUrl} />
       </div>
