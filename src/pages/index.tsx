@@ -1,5 +1,6 @@
 import { useCallback } from "react";
 import { useDropzone } from "react-dropzone";
+
 import type { ChangeEvent } from "react";
 
 import { ImageSVG } from "../svg/image";

@@ -1,7 +1,7 @@
 import { Poppins } from "@next/font/google";
+import type { AppProps } from "next/app";
 
 import "../styles/globals.css";
-import type { AppProps } from "next/app";
 
 const poppins = Poppins({
   weight: ["400", "500"],

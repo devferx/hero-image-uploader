@@ -1,4 +1,5 @@
 import { useState, useEffect, useCallback } from "react";
+import confetti from "canvas-confetti";
 
 import { UploadResponse } from "../interfaces/uploadImg";
 
@@ -8,6 +9,11 @@ export const useUploadImg = () => {
   const [img, setImg] = useState<File>();
   const [imgUrl, setImgUrl] = useState("");
   const [currentState, setCurrentState] = useState<State>("idle");
+  const [isBrowser, setIsBrowser] = useState(false);
+
+  useEffect(() => {
+    setIsBrowser(true);
+  }, []);
 
   const submitFile = useCallback(async () => {
     if (!img) return;
@@ -25,11 +31,18 @@ export const useUploadImg = () => {
       const data: UploadResponse = await res.json();
       setImgUrl(data.data.url);
       setCurrentState("success");
+      if (isBrowser) {
+        confetti({
+          particleCount: 140,
+          spread: 70,
+          origin: { y: 0.6 },
+        });
+      }
     } catch (error) {
       setCurrentState("error");
       console.error(error);
     }
-  }, [img]);
+  }, [img, isBrowser]);
 
   useEffect(() => {
     submitFile();
