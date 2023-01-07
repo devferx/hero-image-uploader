@@ -1,10 +1,11 @@
 import { useState, useEffect, useCallback } from "react";
 import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
+import { useDropzone } from "react-dropzone";
 import { v4 as uuid } from "uuid";
-
 import type { ChangeEvent } from "react";
 
 import { storage } from "../firebase/firebase";
+import { ImageSVG } from "../svg/image";
 
 export default function Home() {
   const [img, setImg] = useState<File>();
@@ -22,7 +23,6 @@ export default function Home() {
 
     const fileExt = img.name.split(".").pop();
     const fileName = `${uuid()}.${fileExt}`;
-    debugger;
 
     const storageRef = ref(storage, `images/${fileName}`);
     const uploadTask = uploadBytesResumable(storageRef, img);
@@ -50,12 +50,29 @@ export default function Home() {
     submitFile();
   }, [submitFile, img]);
 
+  const onDrop = useCallback((acceptedFiles: any) => {
+    const file = acceptedFiles[0];
+    setImg(file);
+  }, []);
+
+  const { getRootProps, getInputProps } = useDropzone({
+    onDrop,
+    accept: {
+      "image/*": [],
+    },
+  });
+
   return (
     <div className="card">
       <h2 className="card__title">Upload your image</h2>
       <p className="card__label">File should be Jpeg, Png,...</p>
 
-      <div className="card__drag"></div>
+      <div className="card__dropzone" {...getRootProps()}>
+        <input {...getInputProps()} />
+        <ImageSVG />
+        <p className="card__label">Drag & Drop your image here</p>
+      </div>
+
       <p className="card__label">Or</p>
       <label className="card__btn" htmlFor="input-file">
         Choose a file
@@ -65,6 +82,7 @@ export default function Home() {
         className="input-file"
         type="file"
         accept="image/*"
+        tabIndex={-1}
         onChange={onChange}
       />
     </div>
