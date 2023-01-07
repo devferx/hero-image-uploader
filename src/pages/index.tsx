@@ -1,5 +1,7 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
+import { v4 as uuid } from "uuid";
+
 import type { ChangeEvent } from "react";
 
 import { storage } from "../firebase/firebase";
@@ -8,10 +10,6 @@ export default function Home() {
   const [img, setImg] = useState<File>();
   const [progessStatus, setProgessStatus] = useState(0);
 
-  useEffect(() => {
-    submitFile();
-  }, [img]);
-
   const onChange = (ev: ChangeEvent<HTMLInputElement>) => {
     if (ev.target!.files === null) return;
 
@@ -19,10 +17,14 @@ export default function Home() {
     setImg(file);
   };
 
-  const submitFile = () => {
+  const submitFile = useCallback(() => {
     if (!img) return;
 
-    const storageRef = ref(storage, `images/${img.name}`);
+    const fileExt = img.name.split(".").pop();
+    const fileName = `${uuid()}.${fileExt}`;
+    debugger;
+
+    const storageRef = ref(storage, `images/${fileName}`);
     const uploadTask = uploadBytesResumable(storageRef, img);
 
     uploadTask.on(
@@ -42,7 +44,11 @@ export default function Home() {
         });
       }
     );
-  };
+  }, [img]);
+
+  useEffect(() => {
+    submitFile();
+  }, [submitFile, img]);
 
   return (
     <div className="card">
