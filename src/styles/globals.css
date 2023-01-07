@@ -36,6 +36,13 @@ body {
   font-weight: 400;
   color: #828282;
 }
+.card__img {
+  width: 350px;
+  height: 300px;
+  border-radius: 12px;
+  overflow: hidden;
+  object-fit: cover;
+}
 .card__dropzone {
   display: flex;
   flex-direction: column;

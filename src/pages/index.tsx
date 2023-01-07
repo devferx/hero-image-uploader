@@ -7,9 +7,13 @@ import type { ChangeEvent } from "react";
 import { storage } from "../firebase/firebase";
 import { ImageSVG } from "../svg/image";
 
+type State = "idle" | "loading" | "success" | "error";
+
 export default function Home() {
   const [img, setImg] = useState<File>();
   const [progessStatus, setProgessStatus] = useState(0);
+  const [imgUrl, setImgUrl] = useState("");
+  const [currentState, setCurrentState] = useState<State>("idle");
 
   const onChange = (ev: ChangeEvent<HTMLInputElement>) => {
     if (ev.target!.files === null) return;
@@ -26,6 +30,7 @@ export default function Home() {
 
     const storageRef = ref(storage, `images/${fileName}`);
     const uploadTask = uploadBytesResumable(storageRef, img);
+    setCurrentState("loading");
 
     uploadTask.on(
       "state_changed",
@@ -36,11 +41,13 @@ export default function Home() {
         setProgessStatus(percent);
       },
       (err) => {
+        setCurrentState("error");
         console.error(err);
       },
       () => {
         getDownloadURL(uploadTask.snapshot.ref).then((url) => {
-          console.log(url);
+          setImgUrl(url);
+          setCurrentState("success");
         });
       }
     );
@@ -61,6 +68,25 @@ export default function Home() {
       "image/*": [],
     },
   });
+
+  if (currentState === "loading") {
+    return (
+      <div className="card">
+        <h2 className="card__title">Uploading...</h2>
+        <p className="card__label">{progessStatus}%</p>
+      </div>
+    );
+  }
+
+  if (currentState === "success") {
+    return (
+      <div className="card">
+        <h2 className="card__title">Uploaded successfully</h2>
+        <img className="card__img" src={imgUrl} alt="uploaded image" />
+        <input type="text" readOnly value={imgUrl} />
+      </div>
+    );
+  }
 
   return (
     <div className="card">
