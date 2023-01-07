@@ -1,20 +1,12 @@
-import { useState, useEffect, useCallback } from "react";
-import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
+import { useCallback } from "react";
 import { useDropzone } from "react-dropzone";
-import { v4 as uuid } from "uuid";
 import type { ChangeEvent } from "react";
 
-import { storage } from "../firebase/firebase";
 import { ImageSVG } from "../svg/image";
-
-type State = "idle" | "loading" | "success" | "error";
+import { useUploadImg } from "../hooks/useUploadImg";
 
 export default function Home() {
-  const [img, setImg] = useState<File>();
-  const [progessStatus, setProgessStatus] = useState(0);
-  const [imgUrl, setImgUrl] = useState("");
-  const [currentState, setCurrentState] = useState<State>("idle");
-
+  const { currentState, progessStatus, imgUrl, setImg } = useUploadImg();
   const onChange = (ev: ChangeEvent<HTMLInputElement>) => {
     if (ev.target!.files === null) return;
 
@@ -22,45 +14,13 @@ export default function Home() {
     setImg(file);
   };
 
-  const submitFile = useCallback(() => {
-    if (!img) return;
-
-    const fileExt = img.name.split(".").pop();
-    const fileName = `${uuid()}.${fileExt}`;
-
-    const storageRef = ref(storage, `images/${fileName}`);
-    const uploadTask = uploadBytesResumable(storageRef, img);
-    setCurrentState("loading");
-
-    uploadTask.on(
-      "state_changed",
-      (snapshot) => {
-        const percent = Math.round(
-          (snapshot.bytesTransferred / snapshot.totalBytes) * 100
-        );
-        setProgessStatus(percent);
-      },
-      (err) => {
-        setCurrentState("error");
-        console.error(err);
-      },
-      () => {
-        getDownloadURL(uploadTask.snapshot.ref).then((url) => {
-          setImgUrl(url);
-          setCurrentState("success");
-        });
-      }
-    );
-  }, [img]);
-
-  useEffect(() => {
-    submitFile();
-  }, [submitFile, img]);
-
-  const onDrop = useCallback((acceptedFiles: any) => {
-    const file = acceptedFiles[0];
-    setImg(file);
-  }, []);
+  const onDrop = useCallback(
+    (acceptedFiles: any) => {
+      const file = acceptedFiles[0];
+      setImg(file);
+    },
+    [setImg]
+  );
 
   const { getRootProps, getInputProps } = useDropzone({
     onDrop,
