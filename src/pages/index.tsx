@@ -1,10 +1,12 @@
 import { useCallback } from "react";
 import { useDropzone } from "react-dropzone";
-
 import type { ChangeEvent } from "react";
 
-import { ImageSVG } from "../svg/image";
 import { useUploadImg } from "../hooks/useUploadImg";
+
+import { LoadingCard } from "../components/LoadingCard";
+import { SuccessCard } from "../components/SuccessCard";
+import { ImageSVG } from "../svg/image";
 
 export default function Home() {
   const { currentState, imgUrl, setImg } = useUploadImg();
@@ -30,24 +32,8 @@ export default function Home() {
     },
   });
 
-  if (currentState === "loading") {
-    return (
-      <div className="card">
-        <h2 className="card__title">Uploading...</h2>
-        <span className="loader"></span>
-      </div>
-    );
-  }
-
-  if (currentState === "success") {
-    return (
-      <div className="card">
-        <h2 className="card__title">🎉 Uploaded successfully</h2>
-        <img className="card__img" src={imgUrl} alt="uploaded image" />
-        <input type="text" readOnly value={imgUrl} />
-      </div>
-    );
-  }
+  if (currentState === "loading") return <LoadingCard />;
+  if (currentState === "success") return <SuccessCard imgUrl={imgUrl} />;
 
   return (
     <div className="card">
