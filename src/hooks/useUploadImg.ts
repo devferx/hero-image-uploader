@@ -8,8 +8,8 @@ type State = "idle" | "loading" | "success" | "error";
 export const useUploadImg = () => {
   const [img, setImg] = useState<File>();
   const [imgUrl, setImgUrl] = useState("");
-  const [currentState, setCurrentState] = useState<State>("idle");
   const [isBrowser, setIsBrowser] = useState(false);
+  const [currentState, setCurrentState] = useState<State>("idle");
 
   useEffect(() => {
     setIsBrowser(true);
