@@ -9,7 +9,7 @@ import { SuccessCard } from "../components/SuccessCard";
 import { ImageSVG } from "../svg/image";
 
 export default function Home() {
-  const { currentState, imgUrl, setImg } = useUploadImg();
+  const { currentState, imgUrl, progessStatus, setImg } = useUploadImg();
   const onChange = (ev: ChangeEvent<HTMLInputElement>) => {
     if (ev.target!.files === null) return;
 
@@ -32,7 +32,8 @@ export default function Home() {
     },
   });
 
-  if (currentState === "loading") return <LoadingCard />;
+  if (currentState === "loading")
+    return <LoadingCard progessStatus={progessStatus} />;
   if (currentState === "success") return <SuccessCard imgUrl={imgUrl} />;
 
   return (

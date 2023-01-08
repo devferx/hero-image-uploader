@@ -64,36 +64,17 @@ body {
   border: none;
   cursor: pointer;
 }
-
-.loader {
+.card__progress {
   width: 100%;
-  height: 4.8px;
-  display: inline-block;
-  position: relative;
-  background: #f2f2f2;
-  overflow: hidden;
+  height: 8px;
+  background: #e0e0e0;
+  border-radius: 8px;
 }
-.loader::after {
-  content: "";
-  width: 96px;
-  height: 4.8px;
+.card__progress-bar {
+  height: 100%;
   background: #2f80ed;
-  position: absolute;
-  top: 0;
-  left: 0;
-  box-sizing: border-box;
-  animation: hitZak 1s linear infinite alternate;
-}
-
-@keyframes hitZak {
-  0% {
-    left: 0;
-    transform: translateX(-1%);
-  }
-  100% {
-    left: 100%;
-    transform: translateX(-99%);
-  }
+  border-radius: 8px;
+  transition: width 0.5s ease-in-out;
 }
 
 .input-file {
