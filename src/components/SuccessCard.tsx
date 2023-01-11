@@ -15,6 +15,7 @@ export const SuccessCard = ({ imgUrl }: SuccessCardProps) => {
       }, 2000);
     });
   };
+
   return (
     <div className="card">
       <h2 className="card__title">🎉 Uploaded successfully</h2>

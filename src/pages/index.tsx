@@ -2,10 +2,10 @@ import { useCallback } from "react";
 import { useDropzone } from "react-dropzone";
 import type { ChangeEvent } from "react";
 
-import { useUploadImg } from "../hooks/useUploadImg";
+import { useUploadImg } from "@hooks/useUploadImg";
 
-import { LoadingCard } from "../components/LoadingCard";
-import { SuccessCard } from "../components/SuccessCard";
+import { LoadingCard } from "@components/LoadingCard";
+import { SuccessCard } from "@components/SuccessCard";
 import { ImageSVG } from "../svg/image";
 
 export default function Home() {
