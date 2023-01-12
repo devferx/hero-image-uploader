@@ -1,3 +1,4 @@
+import { SessionProvider } from "next-auth/react";
 import { Poppins } from "@next/font/google";
 import type { AppProps } from "next/app";
 
@@ -10,11 +11,16 @@ const poppins = Poppins({
   variable: "--poppins",
 });
 
-export default function App({ Component, pageProps }: AppProps) {
+export default function App({
+  Component,
+  pageProps: { session, ...pageProps },
+}: AppProps) {
   // insert poppins font into the web
   return (
-    <main className={poppins.variable}>
-      <Component {...pageProps} />
-    </main>
+    <SessionProvider session={session}>
+      <main className={poppins.variable}>
+        <Component {...pageProps} />
+      </main>
+    </SessionProvider>
   );
 }
