@@ -18,7 +18,7 @@ export default function App({
   // insert poppins font into the web
   return (
     <SessionProvider session={session}>
-      <main className={poppins.variable}>
+      <main className={`main ${poppins.variable}`}>
         <Component {...pageProps} />
       </main>
     </SessionProvider>

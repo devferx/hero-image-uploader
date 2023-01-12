@@ -7,6 +7,7 @@ import { useUploadImg } from "@hooks/useUploadImg";
 import { LoadingCard } from "@components/LoadingCard";
 import { SuccessCard } from "@components/SuccessCard";
 import { ImageSVG } from "../svg/image";
+import { Layout } from "@components/Layout";
 
 export default function Home() {
   const { currentState, imgUrl, progessStatus, setImg } = useUploadImg();
@@ -33,32 +34,43 @@ export default function Home() {
   });
 
   if (currentState === "loading")
-    return <LoadingCard progessStatus={progessStatus} />;
-  if (currentState === "success") return <SuccessCard imgUrl={imgUrl} />;
+    return (
+      <Layout>
+        <LoadingCard progessStatus={progessStatus} />
+      </Layout>
+    );
+  if (currentState === "success")
+    return (
+      <Layout>
+        <SuccessCard imgUrl={imgUrl} />
+      </Layout>
+    );
 
   return (
-    <div className="card">
-      <h2 className="card__title">Upload your image</h2>
-      <p className="card__label">File should be Jpeg, Png,...</p>
+    <Layout>
+      <div className="card">
+        <h2 className="card__title">Upload your image</h2>
+        <p className="card__label">File should be Jpeg, Png,...</p>
 
-      <div className="card__dropzone" {...getRootProps()}>
-        <input {...getInputProps()} />
-        <ImageSVG />
-        <p className="card__label">Drag & Drop your image here</p>
+        <div className="card__dropzone" {...getRootProps()}>
+          <input {...getInputProps()} />
+          <ImageSVG />
+          <p className="card__label">Drag & Drop your image here</p>
+        </div>
+
+        <p className="card__label">Or</p>
+        <label className="card__btn" htmlFor="input-file">
+          Choose a file
+        </label>
+        <input
+          id="input-file"
+          className="input-file"
+          type="file"
+          accept="image/*"
+          tabIndex={-1}
+          onChange={onChange}
+        />
       </div>
-
-      <p className="card__label">Or</p>
-      <label className="card__btn" htmlFor="input-file">
-        Choose a file
-      </label>
-      <input
-        id="input-file"
-        className="input-file"
-        type="file"
-        accept="image/*"
-        tabIndex={-1}
-        onChange={onChange}
-      />
-    </div>
+    </Layout>
   );
 }

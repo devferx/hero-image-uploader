@@ -5,11 +5,18 @@
 }
 
 body {
+  background: #fafafb;
+}
+
+.main {
+  height: 100vh;
+}
+
+.container {
   display: flex;
   justify-content: center;
   align-items: center;
-  background: #fafafb;
-  height: 100vh;
+  height: calc(100% - 60px);
 }
 
 .card {
