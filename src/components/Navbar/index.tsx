@@ -3,9 +3,6 @@ import styles from "./Navbar.module.css";
 
 export const Navbar = () => {
   const { data: session } = useSession();
-  if (session) {
-    console.log(session!.user!.image);
-  }
 
   const login = () => {
     signIn();
@@ -20,10 +17,11 @@ export const Navbar = () => {
       <span className={styles.logo}>🦸 Hero Image Uploader</span>
       {session ? (
         <div className={styles.user}>
+          {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
             className={styles.userImg}
             src={session.user!.image!}
-            alt={session.user!.name}
+            alt={session.user!.name || "User Profile"}
           />
 
           <button className={styles.logoutBtn} onClick={logout}>

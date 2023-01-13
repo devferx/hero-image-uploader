@@ -1,9 +1,11 @@
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, use } from "react";
+import { useSession } from "next-auth/react";
 import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 import { v4 as uuid } from "uuid";
 import confetti from "canvas-confetti";
 
 import { storage } from "../firebase";
+import { addImage } from "../firebase/db/addImage";
 
 type State = "idle" | "loading" | "success" | "error";
 
@@ -13,6 +15,8 @@ export const useUploadImg = () => {
   const [imgUrl, setImgUrl] = useState("");
   const [currentState, setCurrentState] = useState<State>("idle");
   const [isBrowser, setIsBrowser] = useState(false);
+
+  const { data: session } = useSession();
 
   useEffect(() => {
     setIsBrowser(true);
@@ -44,6 +48,17 @@ export const useUploadImg = () => {
         getDownloadURL(uploadTask.snapshot.ref).then((url) => {
           setImgUrl(url);
           setCurrentState("success");
+
+          if (session) {
+            const email = session.user!.email!;
+
+            if (email) {
+              addImage({ email, imageUrl: url }).then(() => {
+                console.log("Image added to user");
+              });
+            }
+          }
+
           if (isBrowser) {
             confetti({
               particleCount: 140,
@@ -54,7 +69,7 @@ export const useUploadImg = () => {
         });
       }
     );
-  }, [img, isBrowser]);
+  }, [img, isBrowser, session]);
 
   useEffect(() => {
     submitFile();
