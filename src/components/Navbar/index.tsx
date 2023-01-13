@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { useSession, signIn, signOut } from "next-auth/react";
 import styles from "./Navbar.module.css";
 
@@ -14,15 +15,24 @@ export const Navbar = () => {
 
   return (
     <header className={styles.navbar}>
-      <span className={styles.logo}>🦸 Hero Image Uploader</span>
+      <Link
+        style={{
+          textDecoration: "none",
+        }}
+        href="/"
+      >
+        <span className={styles.logo}>🦸 Hero Image Uploader</span>
+      </Link>
       {session ? (
         <div className={styles.user}>
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
-            className={styles.userImg}
-            src={session.user!.image!}
-            alt={session.user!.name || "User Profile"}
-          />
+          <Link href="/user-images">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              className={styles.userImg}
+              src={session.user!.image!}
+              alt={session.user!.name || "User Profile"}
+            />
+          </Link>
 
           <button className={styles.logoutBtn} onClick={logout}>
             Logout

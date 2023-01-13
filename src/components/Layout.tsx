@@ -2,13 +2,16 @@ import { Navbar } from "@components/Navbar";
 
 interface LayoutProps {
   children: React.ReactNode;
+  isGalery?: boolean;
 }
 
-export const Layout = ({ children }: LayoutProps) => {
+export const Layout = ({ children, isGalery = false }: LayoutProps) => {
   return (
     <>
       <Navbar />
-      <div className="container">{children}</div>
+      <div className={isGalery ? "galery-container" : "container"}>
+        {children}
+      </div>
     </>
   );
 };
