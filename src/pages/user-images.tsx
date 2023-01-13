@@ -1,9 +1,9 @@
 import { GetServerSidePropsContext, InferGetServerSidePropsType } from "next";
 import { unstable_getServerSession } from "next-auth";
 
-import { authOptions } from "./api/auth/[...nextauth]";
+import { authOptions } from "@pages/api/auth/[...nextauth]";
 import { Layout } from "@components/Layout";
-import { getUserImages } from "../firebase/db/getUserImages";
+import { getUserImages } from "@img-firebase/db/getUserImages";
 
 export const getServerSideProps = async (
   context: GetServerSidePropsContext

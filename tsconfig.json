@@ -29,6 +29,12 @@
       "@interfaces/*": [
         "src/interfaces/*"
       ],
+      "@pages/*": [
+        "src/pages/*"
+      ],
+      "@img-firebase/*": [
+        "src/firebase/*"
+      ],
     }
   },
   "include": [

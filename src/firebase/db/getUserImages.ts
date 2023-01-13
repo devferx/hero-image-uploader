@@ -1,4 +1,5 @@
-import { query, getDocs, collection, where } from "firebase/firestore";
+import { collection, getDocs, query, where } from "firebase/firestore";
+
 import { db } from "../index";
 
 export async function getUserImages(email: string): Promise<string[]> {
