@@ -10,11 +10,13 @@ import {
 import { db } from "../index";
 
 interface addImageParams {
-  email: string;
+  email?: string | null;
   imageUrl: string;
 }
 
 export async function addImage({ email, imageUrl }: addImageParams) {
+  if (!email) return;
+
   const q = query(collection(db, "users"), where("email", "==", email));
   const docSnap = await getDocs(q);
 

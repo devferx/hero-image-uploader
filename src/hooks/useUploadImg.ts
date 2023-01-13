@@ -25,6 +25,12 @@ export const useUploadImg = () => {
   const submitFile = useCallback(() => {
     if (!img) return;
 
+    // if size is greater than 8MB then return
+    if (img.size > 8000000) {
+      alert("File size is greater than 8MB, please upload a smaller file");
+      return;
+    }
+
     const fileExt = img.name.split(".").pop();
     const fileName = `${uuid()}.${fileExt}`;
 
@@ -48,24 +54,18 @@ export const useUploadImg = () => {
         getDownloadURL(uploadTask.snapshot.ref).then((url) => {
           setImgUrl(url);
           setCurrentState("success");
+          if (!isBrowser) return;
+          confetti({
+            particleCount: 140,
+            spread: 70,
+            origin: { y: 0.6 },
+          });
 
-          if (session) {
-            const email = session.user!.email!;
-
-            if (email) {
-              addImage({ email, imageUrl: url }).then(() => {
-                console.log("Image added to user");
-              });
-            }
-          }
-
-          if (isBrowser) {
-            confetti({
-              particleCount: 140,
-              spread: 70,
-              origin: { y: 0.6 },
-            });
-          }
+          if (!session) return;
+          const email = session.user!.email;
+          addImage({ email, imageUrl: url }).then(() => {
+            console.log("Image added to db");
+          });
         });
       }
     );
