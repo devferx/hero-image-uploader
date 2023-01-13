@@ -20,7 +20,12 @@ export const Navbar = () => {
       <span className={styles.logo}>🦸 Hero Image Uploader</span>
       {session ? (
         <div className={styles.user}>
-          <span className={styles.username}>{session.user!.name}</span>
+          <img
+            className={styles.userImg}
+            src={session.user!.image!}
+            alt={session.user!.name}
+          />
+
           <button className={styles.logoutBtn} onClick={logout}>
             Logout
           </button>
