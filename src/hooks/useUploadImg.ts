@@ -5,7 +5,7 @@ import { v4 as uuid } from "uuid";
 import confetti from "canvas-confetti";
 
 import { storage } from "../firebase";
-import { addImage } from "../firebase/db/addImage";
+import { addImage } from "../firebase/db/image";
 
 type State = "idle" | "loading" | "success" | "error";
 

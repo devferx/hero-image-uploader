@@ -4,6 +4,7 @@ import { unstable_getServerSession } from "next-auth";
 import { authOptions } from "@pages/api/auth/[...nextauth]";
 import { Layout } from "@components/Layout";
 import { getUserImages } from "@img-firebase/db/getUserImages";
+import { Gallery } from "@components/Gallery";
 
 export const getServerSideProps = async (
   context: GetServerSidePropsContext
@@ -36,10 +37,8 @@ function UserImages({
   images,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) {
   return (
-    <Layout isGalery>
-      {images.map((image, idx) => (
-        <img key={image} className="galery-img" src={image} width="100%" />
-      ))}
+    <Layout isContainer={false}>
+      <Gallery images={images} />
     </Layout>
   );
 }

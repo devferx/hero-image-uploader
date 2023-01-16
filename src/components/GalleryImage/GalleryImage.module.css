@@ -1,0 +1,42 @@
+.imageContainer {
+  position: relative;
+  width: 100%;
+  height: 300px;
+  border-radius: 12px;
+  overflow: hidden;
+  transition: box-shadow 0.3s ease;
+}
+
+.image {
+  object-fit: cover;
+}
+
+.imageContainer:hover .imageDetails {
+  opacity: 1;
+  visibility: visible;
+}
+
+.imageDetails {
+  visibility: hidden;
+  opacity: 0;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 12px;
+  transition: opacity 0.3s ease;
+  background: rgba(0, 0, 0, 0.75);
+}
+
+.deleteBtn {
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+.deleteBtn:hover {
+  transform: scale(1.1);
+}
