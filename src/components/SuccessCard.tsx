@@ -20,9 +20,9 @@ export const SuccessCard = ({ imgUrl }: SuccessCardProps) => {
     <div className="card">
       <h2 className="card__title">🎉 Uploaded successfully</h2>
       <img className="card__img" src={imgUrl} alt="uploaded image" />
-      <div className="card__link">
+      <div className="p-2 bg-[#f6f8fb] border border-solid border-[#e0e0e0] rounded-lg">
         <input
-          className="card__link__input"
+          className="font-poppins text-sm my-[10px] mr-[16px] ml-[6px]"
           type="text"
           readOnly
           value={imgUrl}

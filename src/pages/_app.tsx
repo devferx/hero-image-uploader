@@ -22,6 +22,13 @@ export default function App({
       <main className={`main ${poppins.variable}`}>
         <Component {...pageProps} />
       </main>
+      <style jsx global>
+        {`
+          :root {
+            --poppins-font: ${poppins.style.fontFamily};
+          }
+        `}
+      </style>
     </SessionProvider>
   );
 }

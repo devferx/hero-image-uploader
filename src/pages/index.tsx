@@ -64,7 +64,7 @@ export default function Home() {
         </label>
         <input
           id="input-file"
-          className="input-file"
+          className="hidden"
           type="file"
           accept="image/*"
           tabIndex={-1}
