@@ -54,7 +54,7 @@ export const ImageGallery = ({ imgUrl, uptdateGallery }: ImageGalleryProps) => {
   return (
     <div key={imgUrl} className={styles.imageContainer}>
       <NextImage
-        className={styles.image}
+        className="object-cover"
         src={imgUrl}
         alt="user image"
         fill={true}
@@ -65,7 +65,7 @@ export const ImageGallery = ({ imgUrl, uptdateGallery }: ImageGalleryProps) => {
           <DowloadSVG />
         </a>
         <button
-          className={styles.deleteBtn}
+          className="hover:scale-110"
           onClick={() => onDelete(imgUrl)}
           disabled={loading}
         >
