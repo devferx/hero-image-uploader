@@ -35,13 +35,13 @@ export default function Home() {
 
   if (currentState === "loading")
     return (
-      <Layout>
+      <Layout pageName="Uploading">
         <LoadingCard progessStatus={progessStatus} />
       </Layout>
     );
   if (currentState === "success")
     return (
-      <Layout>
+      <Layout pageName="Sucess!">
         <SuccessCard imgUrl={imgUrl} />
       </Layout>
     );
